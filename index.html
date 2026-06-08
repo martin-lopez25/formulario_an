@@ -457,8 +457,8 @@
 
             <div class="form-group">
                 <label>Correo electrónico institucional</label>
-                <input type="email" id="emailInput" placeholder="nombre@imssbienestar.gob.mx" required>
-                <div class="help-text">Solo se permiten correos @imssbienestar.gob.mx</div>
+                <input type="email" id="emailInput" placeholder="" required>
+                <div class="help-text">Ingrese su correo electrónico.gob.mx</div>
             </div>
 
             <button class="btn" onclick="validarDatos()">Continuar</button>
@@ -558,14 +558,14 @@
                 document.getElementById('nombreInput').style.borderColor = '#ff6b6b';
                 return;
             }
-
-            // Validar que el correo termine en @imssbienestar.gob.mx
-            if (email === '' || !email.endsWith('@imssbienestar.gob.mx')) {
-                document.getElementById('errorMsg').textContent = 'Solo se permiten correos institucionales @imssbienestar.gob.mx';
+            // Validar que el correo no esté vacío
+            if (email === '') {
+                document.getElementById('errorMsg').textContent = 'Por favor, ingrese un correo electrónico';
                 document.getElementById('errorMsg').style.display = 'block';
                 document.getElementById('emailInput').style.borderColor = '#ff6b6b';
                 return;
             }
+
 
             // Validar formato básico de email
             const emailRegex = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
