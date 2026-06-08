@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cuestionario de Equipamiento - IMSS Bienestar</title>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -475,9 +474,6 @@
             font-weight: 600;
             transition: 0.3s;
             white-space: nowrap;
-        }
-
-        .btn-accion {
             background: #2196F3;
         }
 
@@ -489,6 +485,7 @@
             overflow-x: auto;
             max-height: 60vh;
             overflow-y: auto;
+            position: relative;
         }
 
         .btn-guardar-todo {
@@ -610,6 +607,7 @@
         <p>Se muestran 5 unidades medicas por pagina. Use los botones de navegacion para avanzar.</p>
         <p><strong style="color:#2e7d32">VERDE:</strong> Valor ya registrado - Haga clic para modificar</p>
         <p><strong style="color:#c62828">ROJO:</strong> Campo pendiente - Haga clic para llenar</p>
+        <p><strong>Importante:</strong> Debe presionar ACEPTAR en cada celda antes de pasar a la siguiente</p>
 
         <h3>4. Guardar Informacion</h3>
         <p>Una vez completado todo, presione el boton <strong>"Guardar todo"</strong> para enviar los datos.</p>
@@ -787,6 +785,10 @@
                     <div class="instruccion-color color-rojo"></div>
                     <div class="instruccion-texto"><strong>ROJO</strong>  Haga clic para LLENAR</div>
                 </div>
+                <div class="instruccion-item">
+                    <div style="background: #2196F3; width: 24px; height: 24px; border-radius: 6px;"></div>
+                    <div class="instruccion-texto"><strong>ACEPTAR</strong>  Para confirmar y continuar</div>
+                </div>
             </div>
 
             <div class="table-container">
@@ -819,6 +821,10 @@
     </div>
 
     <script>
+        // Variable global para controlar la celda en edicion
+        let celdaEnEdicion = null;
+        let celdaOriginalHTML = null;
+
         // Funcion para el menu hamburguesa
         function toggleMenu() {
             const panel = document.getElementById('menuPanel');
@@ -834,8 +840,10 @@
                 const overlay = document.getElementById('menuOverlay');
                 panel.classList.remove('active');
                 overlay.classList.remove('active');
-                cerrarModal();
-                cerrarFormModal();
+                if (celdaEnEdicion === null) {
+                    cerrarModal();
+                    cerrarFormModal();
+                }
             }
         });
 
@@ -944,34 +952,39 @@
                 valorMostrado.classList.add('valor-vacio');
             }
 
-            let estadoEdicion = false;
-            let inputField = null;
-            let btnAccion = null;
-            let valorOriginal = tieneValor ? valorActual : null;
-
+            // Funcion para iniciar edicion
             const iniciarEdicion = () => {
-                if (estadoEdicion) return;
+                // Si ya hay una celda en edicion, no hacer nada
+                if (celdaEnEdicion !== null) {
+                    alert('Primero presione ACEPTAR en la celda que esta editando');
+                    return;
+                }
 
-                estadoEdicion = true;
+                // Guardar referencia a la celda actual
+                celdaEnEdicion = container;
+                celdaOriginalHTML = container.innerHTML;
+
+                // Limpiar container y mostrar input
                 container.innerHTML = '';
 
                 // Crear input
-                inputField = document.createElement('input');
+                const inputField = document.createElement('input');
                 inputField.type = 'number';
                 inputField.step = '1';
                 inputField.value = (tieneValor && valorActual !== null) ? valorActual : '';
                 inputField.placeholder = '0';
                 inputField.className = 'input-edicion';
 
-                // Crear boton de accion
-                btnAccion = document.createElement('button');
-                btnAccion.className = 'btn-accion';
-                btnAccion.textContent = 'ACEPTAR';
+                // Crear boton aceptar
+                const btnAceptar = document.createElement('button');
+                btnAceptar.className = 'btn-accion';
+                btnAceptar.textContent = 'ACEPTAR';
 
-                // Funcion para guardar o aceptar
+                // Funcion para finalizar edicion
                 const finalizarEdicion = () => {
                     const nuevoValor = inputField.value;
-                    const haCambiado = nuevoValor !== String(valorOriginal);
+                    const valorOriginalNum = tieneValor ? valorActual : null;
+                    const haCambiado = nuevoValor !== String(valorOriginalNum);
 
                     if (haCambiado) {
                         // Hubo modificacion - GUARDAR
@@ -985,13 +998,17 @@
                             return;
                         }
                     }
-                    // Si no hubo cambio, simplemente aceptar sin guardar
 
+                    // Limpiar referencia de celda en edicion
+                    celdaEnEdicion = null;
+                    celdaOriginalHTML = null;
+
+                    // Actualizar progreso y recargar pagina
                     actualizarProgreso();
-                    mostrarPagina(); // Recargar la pagina
+                    mostrarPagina();
                 };
 
-                btnAccion.onclick = finalizarEdicion;
+                btnAceptar.onclick = finalizarEdicion;
 
                 // Enter para confirmar
                 inputField.onkeypress = (e) => {
@@ -1001,7 +1018,7 @@
                 };
 
                 container.appendChild(inputField);
-                container.appendChild(btnAccion);
+                container.appendChild(btnAceptar);
                 inputField.focus();
             };
 
@@ -1067,6 +1084,10 @@
         }
 
         function cambiarPagina(direccion) {
+            if (celdaEnEdicion !== null) {
+                alert('Primero presione ACEPTAR en la celda que esta editando');
+                return;
+            }
             const nuevaPagina = paginaActual + direccion;
             if (nuevaPagina >= 0 && nuevaPagina < totalPaginas) {
                 paginaActual = nuevaPagina;
@@ -1102,12 +1123,21 @@
         }
 
         function cerrarFormModal() {
+            if (celdaEnEdicion !== null) {
+                alert('Primero presione ACEPTAR en la celda que esta editando');
+                return;
+            }
             if (confirm('Cancelar edicion? Los cambios no guardados se perderan.')) {
                 document.getElementById('formModal').classList.remove('active');
             }
         }
 
         function guardarFormulario() {
+            if (celdaEnEdicion !== null) {
+                alert('Primero presione ACEPTAR en la celda que esta editando');
+                return;
+            }
+
             const datosAGuardar = {
                 entidad: estadoSeleccionado,
                 fecha_registro: new Date().toISOString(),
