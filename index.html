@@ -361,6 +361,7 @@
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
+            vertical-align: middle;
         }
 
         .unidades-table th {
@@ -374,13 +375,77 @@
             background-color: #f9f9f9;
         }
 
-        .unidades-table input {
-            width: 100%;
+        .campo-container {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .valor-mostrado {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 14px;
+            min-width: 50px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .valor-mostrado:hover {
+            background: #c8e6c9;
+            transform: scale(1.02);
+        }
+
+        .valor-vacio {
+            background: #ffebee;
+            color: #c62828;
+            cursor: pointer;
+        }
+
+        .valor-vacio:hover {
+            background: #ffcdd2;
+        }
+
+        .input-edicion {
+            width: 80px;
             padding: 5px;
-            border: 1px solid #ddd;
+            border: 2px solid #AE8640;
             border-radius: 4px;
-            background: white;
-            color: #333;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .btn-accion {
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-guardar {
+            background: #4CAF50;
+        }
+
+        .btn-guardar:hover {
+            background: #45a049;
+        }
+
+        .btn-aceptar {
+            background: #2196F3;
+        }
+
+        .btn-aceptar:hover {
+            background: #0b7dda;
         }
 
         .table-container {
@@ -389,7 +454,7 @@
             overflow-y: auto;
         }
 
-        .btn-guardar {
+        .btn-guardar-todo {
             background: #AE8640;
             color: white;
             margin-right: 10px;
@@ -466,13 +531,12 @@
 
         .pagination span {
             font-size: 14px;
-            color: #333;
             font-weight: 600;
         }
 
         .page-info {
             background: #235B4E;
-            color: white;
+            color: white !important;
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 14px;
@@ -507,7 +571,9 @@
 
         <h3><i class="fas fa-3-circle"></i> Llenar Equipamiento</h3>
         <p>Se muestran <strong>5 unidades médicas por página</strong>. Use los botones de navegación para avanzar.</p>
-        <p><strong>Nota:</strong> Deje en blanco o 0 si no cuenta con el equipo.</p>
+        <p><strong>Campos vacíos:</strong> Se muestran en <span style="color:#c62828; font-weight:bold">ROJO</span>. Haga clic para editar.</p>
+        <p><strong>Campos con valor:</strong> Se muestran en <span style="color:#2e7d32; font-weight:bold">VERDE</span>. Haga clic para editar.</p>
+        <p><strong>Al editar:</strong> Si NO modifica el valor → botón <strong>"ACEPTAR"</strong><br>Si modifica el valor → botón <strong>"GUARDAR"</strong></p>
 
         <h3><i class="fas fa-4-circle"></i> Guardar Información</h3>
         <p>Una vez completado todo, presione el botón <strong>"Guardar todo"</strong> para enviar los datos.</p>
@@ -515,14 +581,11 @@
         <h3><i class="fas fa-chart-line"></i> Progreso</h3>
         <p>La barra de progreso muestra el avance del llenado de todas las unidades.</p>
 
-        <h3><i class="fas fa-save"></i> Datos Guardados</h3>
-        <p>Los datos se guardan automáticamente al cambiar de página.</p>
-
         <h3><i class="fas fa-tips"></i> Consejos</h3>
         <ul>
             <li>Use solo números enteros</li>
-            <li>Los datos se guardan al avanzar de página</li>
-            <li>Puede editar antes del guardado final</li>
+            <li>Los datos se mantienen al cambiar de página</li>
+            <li>Haga clic en cualquier valor para editarlo</li>
         </ul>
 
         <h3><i class="fas fa-envelope"></i> Soporte</h3>
@@ -685,7 +748,7 @@
                             <th style="min-width: 100px;">CLUES</th>
                             <th style="min-width: 250px;">Unidad Médica</th>
                             <th style="min-width: 150px;">Categoría</th>
-                            <th style="min-width: 120px;">Consultorios Generales</th><th style="min-width: 120px;">Consultorios Generales Habilitados</th><th style="min-width: 120px;">Equipo De Computo</th><th style="min-width: 120px;">Banco De Altura</th><th style="min-width: 120px;">Banco Giratorio</th><th style="min-width: 120px;">Bascula Electronica Con Estadimetro</th><th style="min-width: 120px;">Bascula Pesabebes Electronica</th><th style="min-width: 120px;">Bote Sanitario Con Pedal</th><th style="min-width: 120px;">Caja Portalaminilla De Plastico Con Separadores</th><th style="min-width: 120px;">Carta Snellen Con Marco</th><th style="min-width: 120px;">Charola De Mayo De Acero Inoxidable, Dimensiones: 49x32cm</th><th style="min-width: 120px;">Cinta Metrica</th><th style="min-width: 120px;">Contenedor De Jabon Liquido</th><th style="min-width: 120px;">Contenedor De Toallas Desechables</th><th style="min-width: 120px;">Contenedor Rigido 7</th><th style="min-width: 120px;">Cubeta De Acero Inoxidable Y Bolsa</th><th style="min-width: 120px;">Equipo De Computo</th><th style="min-width: 120px;">Escritorio Medico De 150x60x75</th><th style="min-width: 120px;">Esfigmomanometro</th><th style="min-width: 120px;">Espejo Vestidor</th><th style="min-width: 120px;">Espejos Graves O Vaginales Chicos, Medianos Y Grandes</th><th style="min-width: 120px;">Estadimetro Pediatrico</th><th style="min-width: 120px;">Estetoscopio Capsula Doble</th><th style="min-width: 120px;">Estetoscopio Pinard O Doppler Fetal Portatil</th><th style="min-width: 120px;">Guarda De Medicamentos, Materiales O Instrumental</th><th style="min-width: 120px;">Guardarropa Con Perchero</th><th style="min-width: 120px;">Lampara De Examinacion De Pie Rodable</th><th style="min-width: 120px;">Lavabo</th><th style="min-width: 120px;">Martillo Percusor</th><th style="min-width: 120px;">Mesa De Mayo De Acero Inoxidable</th><th style="min-width: 120px;">Mesa Pasteur</th><th style="min-width: 120px;">Mesa Universal Para Exploracion</th><th style="min-width: 120px;">Otoscopio</th><th style="min-width: 120px;">Oximetro De Pulso</th><th style="min-width: 120px;">Porta Cubeta Rodable Con Protector De Hule</th><th style="min-width: 120px;">Porta Rollo Para Papel Kraft O Sabanas</th><th style="min-width: 120px;">Silla Para El Acompanante</th><th style="min-width: 120px;">Silla Para El Usuario</th><th style="min-width: 120px;">Sillon Giratorio De Respaldo Bajo, Tapizado En Tela Con Piston Neumatico</th><th style="min-width: 120px;">Termo Congelante Integrado Para Transporte Y Conservacion De Vacunas Con 6 Paquetes Refrigerantes</th><th style="min-width: 120px;">Termometro De Vastago</th><th style="min-width: 120px;">Termometro Digital</th><th style="min-width: 120px;">Tijera Recta</th><th style="min-width: 120px;">Torundera Con Tapa De Acero Inoxidable De 250 Cm3</th><th style="min-width: 120px;">Vaso Contenedor De Vacunas</th>
+                            <th style="min-width: 180px;">Consultorios Generales</th><th style="min-width: 180px;">Consultorios Generales Habilitados</th><th style="min-width: 180px;">Equipo De Computo</th><th style="min-width: 180px;">Banco De Altura</th><th style="min-width: 180px;">Banco Giratorio</th><th style="min-width: 180px;">Bascula Electronica Con Estadimetro</th><th style="min-width: 180px;">Bascula Pesabebes Electronica</th><th style="min-width: 180px;">Bote Sanitario Con Pedal</th><th style="min-width: 180px;">Caja Portalaminilla De Plastico Con Separadores</th><th style="min-width: 180px;">Carta Snellen Con Marco</th><th style="min-width: 180px;">Charola De Mayo De Acero Inoxidable, Dimensiones: 49x32cm</th><th style="min-width: 180px;">Cinta Metrica</th><th style="min-width: 180px;">Contenedor De Jabon Liquido</th><th style="min-width: 180px;">Contenedor De Toallas Desechables</th><th style="min-width: 180px;">Contenedor Rigido 7</th><th style="min-width: 180px;">Cubeta De Acero Inoxidable Y Bolsa</th><th style="min-width: 180px;">Equipo De Computo</th><th style="min-width: 180px;">Escritorio Medico De 150x60x75</th><th style="min-width: 180px;">Esfigmomanometro</th><th style="min-width: 180px;">Espejo Vestidor</th><th style="min-width: 180px;">Espejos Graves O Vaginales Chicos, Medianos Y Grandes</th><th style="min-width: 180px;">Estadimetro Pediatrico</th><th style="min-width: 180px;">Estetoscopio Capsula Doble</th><th style="min-width: 180px;">Estetoscopio Pinard O Doppler Fetal Portatil</th><th style="min-width: 180px;">Guarda De Medicamentos, Materiales O Instrumental</th><th style="min-width: 180px;">Guardarropa Con Perchero</th><th style="min-width: 180px;">Lampara De Examinacion De Pie Rodable</th><th style="min-width: 180px;">Lavabo</th><th style="min-width: 180px;">Martillo Percusor</th><th style="min-width: 180px;">Mesa De Mayo De Acero Inoxidable</th><th style="min-width: 180px;">Mesa Pasteur</th><th style="min-width: 180px;">Mesa Universal Para Exploracion</th><th style="min-width: 180px;">Otoscopio</th><th style="min-width: 180px;">Oximetro De Pulso</th><th style="min-width: 180px;">Porta Cubeta Rodable Con Protector De Hule</th><th style="min-width: 180px;">Porta Rollo Para Papel Kraft O Sabanas</th><th style="min-width: 180px;">Silla Para El Acompanante</th><th style="min-width: 180px;">Silla Para El Usuario</th><th style="min-width: 180px;">Sillon Giratorio De Respaldo Bajo, Tapizado En Tela Con Piston Neumatico</th><th style="min-width: 180px;">Termo Congelante Integrado Para Transporte Y Conservacion De Vacunas Con 6 Paquetes Refrigerantes</th><th style="min-width: 180px;">Termometro De Vastago</th><th style="min-width: 180px;">Termometro Digital</th><th style="min-width: 180px;">Tijera Recta</th><th style="min-width: 180px;">Torundera Con Tapa De Acero Inoxidable De 250 Cm3</th><th style="min-width: 180px;">Vaso Contenedor De Vacunas</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
@@ -701,7 +764,7 @@
             </div>
 
             <div class="acciones">
-                <button type="button" class="btn btn-guardar" onclick="guardarFormulario()">Guardar todo</button>
+                <button type="button" class="btn btn-guardar-todo" onclick="guardarFormulario()">Guardar todo</button>
                 <button type="button" class="btn btn-cancelar" onclick="cerrarFormModal()">Cancelar</button>
             </div>
         </div>
@@ -817,6 +880,90 @@
             cargarUnidades(estado);
         }
 
+        function crearCampoEquipamiento(valorActual, filaOriginal, columna) {
+            const container = document.createElement('div');
+            container.className = 'campo-container';
+
+            const valorMostrado = document.createElement('div');
+            valorMostrado.className = 'valor-mostrado';
+
+            const tieneValor = (valorActual !== null && valorActual !== undefined && !isNaN(valorActual) && valorActual !== 0 && valorActual !== '');
+            const valorDisplay = tieneValor ? valorActual : 'PENDIENTE';
+
+            valorMostrado.textContent = valorDisplay;
+
+            if (!tieneValor) {
+                valorMostrado.classList.add('valor-vacio');
+            }
+
+            let estadoEdicion = false;
+            let inputField = null;
+            let btnAccion = null;
+            let valorOriginal = tieneValor ? valorActual : null;
+
+            const iniciarEdicion = () => {
+                if (estadoEdicion) return;
+
+                estadoEdicion = true;
+                container.innerHTML = '';
+
+                // Crear input
+                inputField = document.createElement('input');
+                inputField.type = 'number';
+                inputField.step = '1';
+                inputField.value = (tieneValor && valorActual !== null) ? valorActual : '';
+                inputField.placeholder = '0';
+                inputField.className = 'input-edicion';
+
+                // Crear botón de acción
+                btnAccion = document.createElement('button');
+                btnAccion.className = 'btn-accion';
+                btnAccion.textContent = '✓ ACEPTAR';
+                btnAccion.style.background = '#2196F3';
+
+                // Función para guardar o aceptar
+                const finalizarEdicion = () => {
+                    const nuevoValor = inputField.value;
+                    const haCambiado = nuevoValor !== String(valorOriginal);
+
+                    if (haCambiado) {
+                        // Hubo modificación - GUARDAR
+                        let numero = parseInt(nuevoValor);
+                        if (nuevoValor === '') {
+                            datosActuales[filaOriginal][columna] = null;
+                        } else if (!isNaN(numero) && numero >= 0) {
+                            datosActuales[filaOriginal][columna] = numero;
+                        } else {
+                            alert('Por favor, ingrese un número válido mayor o igual a 0');
+                            return;
+                        }
+                    }
+                    // Si no hubo cambio, simplemente aceptar sin guardar
+
+                    actualizarProgreso();
+                    mostrarPagina(); // Recargar la página
+                };
+
+                btnAccion.onclick = finalizarEdicion;
+
+                // Enter para confirmar
+                inputField.onkeypress = (e) => {
+                    if (e.key === 'Enter') {
+                        finalizarEdicion();
+                    }
+                };
+
+                container.appendChild(inputField);
+                container.appendChild(btnAccion);
+                inputField.focus();
+            };
+
+            valorMostrado.onclick = iniciarEdicion;
+            container.appendChild(valorMostrado);
+
+            return container;
+        }
+
         function cargarUnidades(estado) {
             const unidades = datosUnidades[estado] || [];
             datosActuales = JSON.parse(JSON.stringify(unidades));
@@ -857,21 +1004,8 @@
                 columnasEquipamiento.forEach(col => {
                     const cell = row.insertCell();
                     const valorActual = unidad[col];
-                    const input = document.createElement('input');
-                    input.type = 'number';
-                    input.step = '1';
-                    input.value = (valorActual !== null && valorActual !== undefined && !isNaN(valorActual)) ? valorActual : '';
-                    input.placeholder = '0';
-                    input.style.width = '80px';
-
-                    input.onchange = (function(fila, columna) {
-                        return function() {
-                            datosActuales[fila][columna] = this.value === '' ? null : parseFloat(this.value);
-                            actualizarProgreso();
-                        };
-                    })(filaOriginal, col);
-
-                    cell.appendChild(input);
+                    const campo = crearCampoEquipamiento(valorActual, filaOriginal, col);
+                    cell.appendChild(campo);
                 });
             });
 
@@ -901,7 +1035,7 @@
                 columnasEquipamiento.forEach(col => {
                     totalCampos++;
                     const valor = unidad[col];
-                    if (valor !== null && valor !== undefined && !isNaN(valor) && valor !== '') {
+                    if (valor !== null && valor !== undefined && !isNaN(valor) && valor !== 0 && valor !== '') {
                         completados++;
                     }
                 });
@@ -944,7 +1078,7 @@
 
                     columnasEquipamiento.forEach(col => {
                         const valor = unidad[col];
-                        if (valor !== null && valor !== undefined && !isNaN(valor) && valor !== '') {
+                        if (valor !== null && valor !== undefined && !isNaN(valor) && valor !== 0 && valor !== '') {
                             datosUnidad[col] = valor;
                         }
                     });
